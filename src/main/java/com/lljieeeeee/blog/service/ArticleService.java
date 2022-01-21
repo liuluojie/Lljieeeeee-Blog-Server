@@ -1,10 +1,13 @@
 package com.lljieeeeee.blog.service;
 
+import com.lljieeeeee.blog.dto.view.ArchiveDTO;
 import com.lljieeeeee.blog.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lljieeeeee.blog.vo.admin.ArticleAdminVo;
+import com.lljieeeeee.blog.vo.view.QueryArticleVo;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,4 +65,28 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     Map<String, Object> getRecycleArticlePage(long current, long size);
+
+    /**
+     * 根据分类分页查询文章列表
+     * @param current
+     * @param size
+     * @param queryArticleVo
+     * @return
+     */
+    Map<String, Object> getArticlePageByCategoryView(long current, long size, QueryArticleVo queryArticleVo);
+
+    /**
+     * 根据标签分页查询文章列表
+     * @param current
+     * @param size
+     * @param queryArticleVo
+     * @return
+     */
+    Map<String, Object> getArticlePageByTagView(long current, long size, QueryArticleVo queryArticleVo);
+
+    /**
+     * 获取文章归档
+     * @return
+     */
+    List<ArchiveDTO> getArchiveList();
 }

@@ -1,25 +1,28 @@
 package com.lljieeeeee.blog.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lljieeeeee.blog.dto.admin.ArticleListDTO;
-import com.lljieeeeee.blog.entity.Article;
-import com.lljieeeeee.blog.entity.ArticleCategoryRelation;
-import com.lljieeeeee.blog.entity.ArticleTagRelation;
+import com.lljieeeeee.blog.dto.view.ArchiveArticle;
+import com.lljieeeeee.blog.dto.view.ArchiveDTO;
+import com.lljieeeeee.blog.entity.*;
 import com.lljieeeeee.blog.mapper.ArticleMapper;
-import com.lljieeeeee.blog.service.ArticleCategoryRelationService;
-import com.lljieeeeee.blog.service.ArticleService;
+import com.lljieeeeee.blog.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lljieeeeee.blog.service.ArticleTagRelationService;
 import com.lljieeeeee.blog.utils.page.PageUtil;
 import com.lljieeeeee.blog.vo.admin.ArticleAdminVo;
+import com.lljieeeeee.blog.vo.view.QueryArticleVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * <p>
@@ -37,6 +40,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private ArticleTagRelationService articleTagRelationService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private TagService tagService;
 
     @Override
     public Map<String, Object> getArticlePage(long current, long size) {
@@ -140,7 +149,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<Article> list = page.getRecords();
         List<ArticleListDTO> articleListDTOList = new ArrayList<>();
         for (Article article : list) {
-            System.out.println(article);
             ArticleListDTO articleListDTO = new ArticleListDTO();
             BeanUtils.copyProperties(article, articleListDTO);
             List<String> articleCategoryList = articleCategoryRelationService.getCategoriesByArticleId(article.getArticleId());
@@ -152,5 +160,99 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Map<String, Object> map = PageUtil.getPageInfo(page);
         map.put("list", articleListDTOList);
         return map;
+    }
+
+    @Override
+    public Map<String, Object> getArticlePageByCategoryView(long current, long size, QueryArticleVo queryArticleVo) {
+        // 根据分类名查询分类ID
+        QueryWrapper<Category> categoryQueryWrapper = new QueryWrapper<>();
+        categoryQueryWrapper.eq("category_name", queryArticleVo.getCategoryName());
+        Category category = categoryService.getOne(categoryQueryWrapper);
+
+        // 分页查询文章分类关系列表
+        Page<ArticleCategoryRelation> articleCategoryRelationPage = new Page<>(current, size);
+        QueryWrapper<ArticleCategoryRelation> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("create_time");
+        wrapper.eq("category_id", category.getCategoryId());
+        articleCategoryRelationService.page(articleCategoryRelationPage, wrapper);
+        List<ArticleCategoryRelation> articleCategoryRelationList = articleCategoryRelationPage.getRecords();
+
+        // 根据文章ID查询文章列表
+        List<ArticleListDTO> articleListDTOList = new ArrayList<>();
+        for (ArticleCategoryRelation articleCategoryRelation : articleCategoryRelationList) {
+            Article article = baseMapper.selectById(articleCategoryRelation.getArticleId());
+            if (!StringUtils.isEmpty(article)) {
+                ArticleListDTO articleListDTO = new ArticleListDTO();
+                BeanUtils.copyProperties(article, articleListDTO);
+                articleListDTOList.add(articleListDTO);
+            }
+        }
+        Map<String, Object> map = PageUtil.getPageInfo(articleCategoryRelationPage);
+        map.put("list", articleListDTOList);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getArticlePageByTagView(long current, long size, QueryArticleVo queryArticleVo) {
+        // 根据标签名查询标签ID
+        QueryWrapper<Tag> tagQueryWrapper = new QueryWrapper<>();
+        tagQueryWrapper.eq("tag_name", queryArticleVo.getTagName());
+        Tag tag = tagService.getOne(tagQueryWrapper);
+
+        // 分页查询文章标签关系列表
+        Page<ArticleTagRelation> articleTagRelationPage = new Page<>(current, size);
+        QueryWrapper<ArticleTagRelation> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("create_time");
+        wrapper.eq("tag_id", tag.getTagId());
+        articleTagRelationService.page(articleTagRelationPage, wrapper);
+        List<ArticleTagRelation> articleCategoryRelationList = articleTagRelationPage.getRecords();
+
+        // 根据文章ID查询文章列表
+        List<ArticleListDTO> articleListDTOList = new ArrayList<>();
+        for (ArticleTagRelation articleTagRelation : articleCategoryRelationList) {
+            Article article = baseMapper.selectById(articleTagRelation.getArticleId());
+            if (!StringUtils.isEmpty(article)) {
+                ArticleListDTO articleListDTO = new ArticleListDTO();
+                BeanUtils.copyProperties(article, articleListDTO);
+                articleListDTOList.add(articleListDTO);
+            }
+        }
+        Map<String, Object> map = PageUtil.getPageInfo(articleTagRelationPage);
+        map.put("list", articleListDTOList);
+        return map;
+    }
+
+    @Override
+    public List<ArchiveDTO> getArchiveList() {
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("create_time");
+        wrapper.eq("article_status", 0);
+        List<Article> articleList = baseMapper.selectList(wrapper);
+        List<ArchiveDTO> archiveDTOList = new ArrayList<>();
+        int size = articleList.size();
+        for (int i = 0, j = 0; i < size; ) {
+            Article article = articleList.get(i);
+            Integer year = DateUtil.year(article.getCreateTime());
+            Integer month = DateUtil.month(article.getCreateTime());
+            ArchiveDTO archiveDTO = new ArchiveDTO();
+            archiveDTO.setYear(year);
+            archiveDTO.setMonth(month + 1);
+            List<ArchiveArticle> archiveArticleList = new ArrayList<>();
+            for (j = i; j < size; j++) {
+                Date createTime = articleList.get(j).getCreateTime();
+                if(DateUtil.year(createTime) != year || DateUtil.month(createTime) != month) {
+                    break;
+                }
+                ArchiveArticle archiveArticle = new ArchiveArticle();
+                archiveArticle.setArticleId(articleList.get(j).getArticleId());
+                archiveArticle.setArticleTitle(articleList.get(j).getArticleTitle());
+                archiveArticle.setDate(DateUtil.dayOfMonth(createTime) + "");
+                archiveArticleList.add(archiveArticle);
+            }
+            i = j;
+            archiveDTO.setArchiveDTOList(archiveArticleList);
+            archiveDTOList.add(archiveDTO);
+        }
+        return archiveDTOList;
     }
 }

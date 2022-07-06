@@ -3,8 +3,8 @@ package com.lljieeeeee.blog.controller.view;
 
 import com.lljieeeeee.blog.dto.view.ArchiveDTO;
 import com.lljieeeeee.blog.service.ArticleService;
-import com.lljieeeeee.blog.utils.redis.RedisUtil;
-import com.lljieeeeee.blog.utils.result.R;
+import com.lljieeeeee.blog.util.redis.RedisUtil;
+import com.lljieeeeee.blog.util.result.R;
 import com.lljieeeeee.blog.vo.admin.ArticleAdminVo;
 import com.lljieeeeee.blog.vo.view.QueryArticleVo;
 import io.swagger.annotations.ApiOperation;

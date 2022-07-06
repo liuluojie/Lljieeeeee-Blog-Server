@@ -1,6 +1,5 @@
 package com.lljieeeeee.blog;
 
-import cn.dev33.satoken.secure.SaSecureUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -10,15 +9,8 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.lljieeeeee.blog.entity.User;
-import com.lljieeeeee.blog.service.UserService;
-import com.lljieeeeee.blog.utils.md5.Md5;
+import com.lljieeeeee.blog.util.md5.Md5;
 import org.junit.Test;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author Lljieeeeee

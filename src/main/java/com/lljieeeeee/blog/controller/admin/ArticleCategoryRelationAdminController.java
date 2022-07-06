@@ -2,7 +2,7 @@ package com.lljieeeeee.blog.controller.admin;
 
 
 import com.lljieeeeee.blog.service.ArticleCategoryRelationService;
-import com.lljieeeeee.blog.utils.result.R;
+import com.lljieeeeee.blog.util.result.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

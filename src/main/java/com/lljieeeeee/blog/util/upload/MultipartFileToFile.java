@@ -1,4 +1,4 @@
-package com.lljieeeeee.blog.utils.upload;
+package com.lljieeeeee.blog.util.upload;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;

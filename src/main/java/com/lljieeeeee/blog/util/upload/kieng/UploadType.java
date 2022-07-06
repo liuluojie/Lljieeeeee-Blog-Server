@@ -1,4 +1,4 @@
-package com.lljieeeeee.blog.utils.upload.kieng;
+package com.lljieeeeee.blog.util.upload.kieng;
 
 /**
  * @author Lljieeeeee

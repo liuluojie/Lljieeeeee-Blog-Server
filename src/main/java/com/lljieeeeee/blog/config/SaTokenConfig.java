@@ -5,7 +5,7 @@ import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.interceptor.SaRouteInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
-import com.lljieeeeee.blog.utils.result.R;
+import com.lljieeeeee.blog.util.result.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

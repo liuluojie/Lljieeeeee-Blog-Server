@@ -1,19 +1,16 @@
 package com.lljieeeeee.blog.controller.admin;
 
 
-import com.lljieeeeee.blog.entity.Article;
 import com.lljieeeeee.blog.service.ArticleCategoryRelationService;
 import com.lljieeeeee.blog.service.ArticleService;
 import com.lljieeeeee.blog.service.ArticleTagRelationService;
-import com.lljieeeeee.blog.utils.result.R;
+import com.lljieeeeee.blog.util.result.R;
 import com.lljieeeeee.blog.vo.admin.ArticleAdminVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**

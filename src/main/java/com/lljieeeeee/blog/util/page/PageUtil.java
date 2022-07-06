@@ -1,4 +1,4 @@
-package com.lljieeeeee.blog.utils.page;
+package com.lljieeeeee.blog.util.page;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 

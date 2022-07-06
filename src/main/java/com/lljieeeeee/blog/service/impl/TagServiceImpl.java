@@ -6,7 +6,7 @@ import com.lljieeeeee.blog.entity.Tag;
 import com.lljieeeeee.blog.mapper.TagMapper;
 import com.lljieeeeee.blog.service.TagService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lljieeeeee.blog.utils.page.PageUtil;
+import com.lljieeeeee.blog.util.page.PageUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

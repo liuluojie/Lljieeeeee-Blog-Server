@@ -4,7 +4,7 @@ package com.lljieeeeee.blog.controller.admin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.lljieeeeee.blog.entity.User;
 import com.lljieeeeee.blog.service.UserService;
-import com.lljieeeeee.blog.utils.result.R;
+import com.lljieeeeee.blog.util.result.R;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 
 /**
  * <p>

@@ -1,8 +1,6 @@
 package com.lljieeeeee.blog.controller.view;
 
 
-import com.lljieeeeee.blog.utils.result.R;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

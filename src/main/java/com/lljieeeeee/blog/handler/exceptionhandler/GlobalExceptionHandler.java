@@ -2,7 +2,7 @@ package com.lljieeeeee.blog.handler.exceptionhandler;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import com.lljieeeeee.blog.exception.LljieeeeeeException;
-import com.lljieeeeee.blog.utils.result.R;
+import com.lljieeeeee.blog.util.result.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

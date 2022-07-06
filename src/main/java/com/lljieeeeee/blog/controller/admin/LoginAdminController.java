@@ -2,14 +2,12 @@ package com.lljieeeeee.blog.controller.admin;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.lljieeeeee.blog.service.UserService;
-import com.lljieeeeee.blog.utils.result.R;
+import com.lljieeeeee.blog.util.result.R;
 import com.lljieeeeee.blog.vo.admin.UserAdminVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * @author Lljieeeeee

@@ -2,19 +2,14 @@ package com.lljieeeeee.blog.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lljieeeeee.blog.dto.admin.UserAdminDTO;
 import com.lljieeeeee.blog.entity.User;
 import com.lljieeeeee.blog.mapper.UserMapper;
 import com.lljieeeeee.blog.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lljieeeeee.blog.utils.md5.Md5;
+import com.lljieeeeee.blog.util.md5.Md5;
 import com.lljieeeeee.blog.vo.admin.UserAdminVO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>

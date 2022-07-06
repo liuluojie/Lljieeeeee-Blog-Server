@@ -1,4 +1,4 @@
-package com.lljieeeeee.blog.utils.constant;
+package com.lljieeeeee.blog.util.constant;
 
 /**
  * @author Lljieeeeee

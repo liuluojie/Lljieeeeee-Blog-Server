@@ -1,8 +1,7 @@
-package com.lljieeeeee.blog.utils.md5;
+package com.lljieeeeee.blog.util.md5;
 
 
 import org.apache.commons.codec.binary.Hex;
-import org.junit.Test;
 
 import java.security.MessageDigest;
 import java.util.Random;

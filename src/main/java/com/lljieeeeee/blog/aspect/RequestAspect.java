@@ -35,7 +35,6 @@ public class RequestAspect {
 
     @Before("controllerLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
-
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -44,6 +43,9 @@ public class RequestAspect {
         log.info("请求URL --->> {}", request.getRequestURL());
         log.info("请求IP  --->> {}", request.getRemoteAddr());
         log.info("请求方法 --->> {}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        if (request.getRequestURL().toString().contains("upload")) {
+            return;
+        }
         if(RequestMethod.POST.name().equals(method) || RequestMethod.PUT.name().equals(method)){
             // 记录下请求内容
             // 获取参数, 只取自定义的参数, 自带的HttpServletRequest, HttpServletResponse不管
@@ -64,7 +66,6 @@ public class RequestAspect {
             }
             // 请求信息
             log.info("请求参数 --->> params:{}", JSON.toJSONString(bizDataMap));
-
         }
     }
 

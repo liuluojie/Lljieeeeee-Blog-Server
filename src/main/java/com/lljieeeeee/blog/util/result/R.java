@@ -1,4 +1,4 @@
-package com.lljieeeeee.blog.utils.result;
+package com.lljieeeeee.blog.util.result;
 
 
 import io.swagger.annotations.ApiModelProperty;

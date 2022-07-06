@@ -1,4 +1,4 @@
-package com.lljieeeeee.blog.utils.upload.kieng;
+package com.lljieeeeee.blog.util.upload.kieng;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;

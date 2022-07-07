@@ -7,6 +7,7 @@ import com.lljieeeeee.blog.dto.admin.ArticleListDTO;
 import com.lljieeeeee.blog.dto.view.ArchiveArticle;
 import com.lljieeeeee.blog.dto.view.ArchiveDTO;
 import com.lljieeeeee.blog.entity.*;
+import com.lljieeeeee.blog.enums.ArticleStatusEnum;
 import com.lljieeeeee.blog.mapper.ArticleMapper;
 import com.lljieeeeee.blog.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -45,48 +46,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public Map<String, Object> getArticlePage(long current, long size) {
-        Page<Article> page = new Page<>(current, size);
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("create_time");
-        wrapper.eq("article_status", 0).or().eq("article_status", 1);
-        baseMapper.selectPage(page, wrapper);
-        List<Article> list = page.getRecords();
-        List<ArticleListDTO> articleListDTOList = new ArrayList<>();
-        for (Article article : list) {
-            ArticleListDTO articleListDTO = new ArticleListDTO();
-            BeanUtils.copyProperties(article, articleListDTO);
-            List<String> articleCategoryList = articleCategoryRelationService.getCategoriesByArticleId(article.getArticleId());
-            articleListDTO.setCategoryList(articleCategoryList);
-            List<String> articleTagList = articleTagRelationService.getTagListByArticleId(article.getArticleId());
-            articleListDTO.setTagList(articleTagList);
-            articleListDTOList.add(articleListDTO);
-        }
-        Map<String, Object> map = PageUtil.getPageInfo(page);
-        map.put("list", articleListDTOList);
-        return map;
+        return getArticlePageByStatus(current, size, ArticleStatusEnum.PUBLIC.getStatus(), ArticleStatusEnum.DRAFT.getStatus());
     }
 
     @Override
     public Map<String, Object> getArticlePageView(long current, long size) {
-        Page<Article> page = new Page<>(current, size);
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("create_time");
-        wrapper.eq("article_status", 0);
-        baseMapper.selectPage(page, wrapper);
-        List<Article> list = page.getRecords();
-        List<ArticleListDTO> articleListDTOList = new ArrayList<>();
-        for (Article article : list) {
-            ArticleListDTO articleListDTO = new ArticleListDTO();
-            BeanUtils.copyProperties(article, articleListDTO);
-            List<String> articleCategoryList = articleCategoryRelationService.getCategoriesByArticleId(article.getArticleId());
-            articleListDTO.setCategoryList(articleCategoryList);
-            List<String> articleTagList = articleTagRelationService.getTagListByArticleId(article.getArticleId());
-            articleListDTO.setTagList(articleTagList);
-            articleListDTOList.add(articleListDTO);
-        }
-        Map<String, Object> map = PageUtil.getPageInfo(page);
-        map.put("list", articleListDTOList);
-        return map;
+        return getArticlePageByStatus(current, size, ArticleStatusEnum.PUBLIC.getStatus());
     }
 
     @Override
@@ -137,25 +102,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public Map<String, Object> getRecycleArticlePage(long current, long size) {
-        Page<Article> page = new Page<>(current, size);
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("create_time");
-        wrapper.eq("article_status", 2);
-        baseMapper.selectPage(page, wrapper);
-        List<Article> list = page.getRecords();
-        List<ArticleListDTO> articleListDTOList = new ArrayList<>();
-        for (Article article : list) {
-            ArticleListDTO articleListDTO = new ArticleListDTO();
-            BeanUtils.copyProperties(article, articleListDTO);
-            List<String> articleCategoryList = articleCategoryRelationService.getCategoriesByArticleId(article.getArticleId());
-            articleListDTO.setCategoryList(articleCategoryList);
-            List<String> articleTagList = articleTagRelationService.getTagListByArticleId(article.getArticleId());
-            articleListDTO.setTagList(articleTagList);
-            articleListDTOList.add(articleListDTO);
-        }
-        Map<String, Object> map = PageUtil.getPageInfo(page);
-        map.put("list", articleListDTOList);
-        return map;
+        return getArticlePageByStatus(current, size, ArticleStatusEnum.RECYCLE.getStatus());
     }
 
     @Override
@@ -250,5 +197,28 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             archiveDTOList.add(archiveDTO);
         }
         return archiveDTOList;
+    }
+
+    @Override
+    public Map<String, Object> getArticlePageByStatus(long current, long size, Integer... status) {
+        Page<Article> page = new Page<>(current, size);
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("create_time");
+        wrapper.in("article_status", status);
+        baseMapper.selectPage(page, wrapper);
+        List<Article> list = page.getRecords();
+        List<ArticleListDTO> articleListDTOList = new ArrayList<>();
+        for (Article article : list) {
+            ArticleListDTO articleListDTO = new ArticleListDTO();
+            BeanUtils.copyProperties(article, articleListDTO);
+            List<String> articleCategoryList = articleCategoryRelationService.getCategoriesByArticleId(article.getArticleId());
+            articleListDTO.setCategoryList(articleCategoryList);
+            List<String> articleTagList = articleTagRelationService.getTagListByArticleId(article.getArticleId());
+            articleListDTO.setTagList(articleTagList);
+            articleListDTOList.add(articleListDTO);
+        }
+        Map<String, Object> map = PageUtil.getPageInfo(page);
+        map.put("list", articleListDTOList);
+        return map;
     }
 }

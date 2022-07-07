@@ -93,7 +93,7 @@ public class Md5 {
      * @param src
      * @return
      */
-    public static String md5Hex(String src) {
+    private static String md5Hex(String src) {
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             byte[] bs = md5.digest(src.getBytes());

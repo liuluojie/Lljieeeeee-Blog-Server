@@ -52,8 +52,8 @@ public interface ArticleService extends IService<Article> {
     String saveArticle(Article article);
 
     /**
-     * 根据ID查询文章信息
-     * @param articleId
+     * 根据ID查询文章详细信息
+     * @param articleId 文章ID
      * @return
      */
     ArticleAdminVo getArticleInfo(String articleId);
@@ -89,4 +89,13 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     List<ArchiveDTO> getArchiveList();
+
+    /**
+     * 分状态分页查询文章信息
+     * @param current
+     * @param size
+     * @param status
+     * @return
+     */
+    public Map<String, Object> getArticlePageByStatus(long current, long size, Integer ...status);
 }

@@ -72,11 +72,11 @@ public class ArticleViewController {
     @ApiOperation("获取文章归档")
     @GetMapping("getArchiveList")
     public R getArchiveList() {
-        if (redisUtil.hasKey("ArchiveList")) {
-            return R.success().data("list", redisUtil.lGet("ArchiveList", 0L, -1L));
+        if (redisUtil.hasKey("Lljieeeeee-Blog:ArchiveList")) {
+            return R.success().data("list", redisUtil.lGet("Lljieeeeee-Blog:ArchiveList", 0L, -1L));
         }
         List<ArchiveDTO> list = articleService.getArchiveList();
-        redisUtil.lSet("ArchiveList", list);
+        redisUtil.lSet("Lljieeeeee-Blog:ArchiveList", list);
         return R.success().data("list", list);
     }
 }

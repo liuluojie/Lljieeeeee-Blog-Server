@@ -28,7 +28,7 @@ public class CodeGenerator {
 
         // 2、全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("D:\\桌面文件\\blog\\Lljieeeeee-Blog\\Lljieeeeee-Blog-Server\\src\\main\\java");
+        gc.setOutputDir("D:\\项目\\Lljieeeeee-Blog\\Lljieeeeee-Blog-Server\\src\\main\\java");
         gc.setAuthor("Lljieeeeee");
         gc.setOpen(false); //生成后是否打开资源管理器
         gc.setFileOverride(false); //重新生成时文件是否覆盖
@@ -41,7 +41,7 @@ public class CodeGenerator {
 
         // 3、数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/lljieeeeee_blog?serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://lljieeeeeee.top:3306/lljieeeeee_blog?serverTimezone=GMT%2B8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("hanqing");
@@ -60,7 +60,7 @@ public class CodeGenerator {
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("user");
+        strategy.setInclude("view_settings", "admin_settings");
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
 

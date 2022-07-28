@@ -207,18 +207,32 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         wrapper.in("article_status", status);
         baseMapper.selectPage(page, wrapper);
         List<Article> list = page.getRecords();
-        List<ArticleListDTO> articleListDTOList = new ArrayList<>();
+        List<ArticleListDTO> articleListDTOList = new ArrayList<>(list.size());
         for (Article article : list) {
             ArticleListDTO articleListDTO = new ArticleListDTO();
             BeanUtils.copyProperties(article, articleListDTO);
-            List<String> articleCategoryList = articleCategoryRelationService.getCategoriesByArticleId(article.getArticleId());
-            articleListDTO.setCategoryList(articleCategoryList);
-            List<String> articleTagList = articleTagRelationService.getTagListByArticleId(article.getArticleId());
-            articleListDTO.setTagList(articleTagList);
             articleListDTOList.add(articleListDTO);
         }
+        fillArticleListCategory(articleListDTOList);
+        fillArticleListTag(articleListDTOList);
         Map<String, Object> map = PageUtil.getPageInfo(page);
         map.put("list", articleListDTOList);
         return map;
+    }
+
+    @Override
+    public void fillArticleListCategory(List<ArticleListDTO> articleList) {
+        for (ArticleListDTO articleListDTO : articleList) {
+            List<String> categoryList = articleCategoryRelationService.getCategoriesByArticleId(articleListDTO.getArticleId());
+            articleListDTO.setCategoryList(categoryList);
+        }
+    }
+
+    @Override
+    public void fillArticleListTag(List<ArticleListDTO> articleList) {
+        for (ArticleListDTO articleListDTO : articleList) {
+            List<String> tagList = articleTagRelationService.getTagListByArticleId(articleListDTO.getArticleId());
+            articleListDTO.setTagList(tagList);
+        }
     }
 }

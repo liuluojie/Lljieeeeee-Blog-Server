@@ -1,12 +1,12 @@
 package com.lljieeeeee.blog.service;
 
+import com.lljieeeeee.blog.dto.admin.ArticleListDTO;
 import com.lljieeeeee.blog.dto.view.ArchiveDTO;
 import com.lljieeeeee.blog.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lljieeeeee.blog.vo.admin.ArticleAdminVo;
 import com.lljieeeeee.blog.vo.view.QueryArticleVo;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -98,4 +98,16 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     public Map<String, Object> getArticlePageByStatus(long current, long size, Integer ...status);
+
+    /**
+     * 填充文章列表分类
+     * @param articleList 文章列表
+     */
+    public void fillArticleListCategory(List<ArticleListDTO> articleList);
+
+    /**
+     * 填充文章列表标签
+     * @param articleList 文章列表
+     */
+    public void fillArticleListTag(List<ArticleListDTO> articleList);
 }
